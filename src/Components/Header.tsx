@@ -7,13 +7,13 @@ const Wrapper = styled.div`
     font-size: 25px;
     font-weight: 600;
     background: whitesmoke;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     height: 50px;
     min-width: 480px;
-`
+`;
 
 const Header = () => {
-    return <Wrapper>Header</Wrapper>
-}
+    return <Wrapper>Header</Wrapper>;
+};
 
 export default Header;

@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 
-
 const GlobalStyle = createGlobalStyle`
 //Reset CSS
     html, body, div, span, applet, object, iframe,
@@ -68,7 +67,10 @@ img {
     -o-user-drag: none;
     user-drag: none;
 }
-`
+
+body {
+    height: 100vh;
+}
+`;
 
 export default GlobalStyle;
-
