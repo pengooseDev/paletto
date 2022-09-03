@@ -10,11 +10,7 @@ import { colorAtom, TColor } from "../atoms";
 // 어떤거가 이해가 안되시나요
 
 // 네네
-/**
- * 
- * 
- * 
- * 
+/*
 type CustomColor = { customColor: string }
 Object안에 customColor가 네네
 : 이거는 Object안에서 key가 무슨 값인지 알려줄때 사용하는 겁니다
@@ -35,6 +31,7 @@ atoms에
 const Header = styled.div:{ customColor: string }`
 
  */
+
 // 저희는 알고있지, styled.div는 props로 뭐가 들어올지 몰라요
 // 제네릭으로 알려주지 않은 상태에서는 그저 props는 any일 뿐입니다
 
@@ -57,6 +54,7 @@ const ColorBox = styled.div<{ bgColor: [number, number, number] }>`
     justify-content: center;
     padding: 10px;
     border-radius: 5px;
+    transition: ease-in-out 0.2s;
 `;
 
 const Button = styled.div`
@@ -66,32 +64,28 @@ const Button = styled.div`
     text-align: center;
     border-radius: 5px;
     padding: 5px 10px;
-    background: teal;
+    background: whitesmoke;
     color: black;
     transition: 0.2s ease-in-out;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
     :hover {
         cursor: pointer;
         background: white;
         color: black;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     }
 `;
 
 const Color = () => {
     const [color, setColor] = useRecoilState(colorAtom);
-    /*
-    const randomBrightness = (prev: [number, number, number]) => {
-        const value = Math.floor(Math.random() * 255);
-        const newColor = prev.map((i) => {
-            i + value;
-        });
-        console.log(newColor);
-        return newColor;
-    };
-*/
     const randomPicker = () => {
         setColor((prev) => {
             const prevColor = [...prev];
-            console.log("!!!", prevColor);
             const randomColor = () => {
                 return Math.floor(Math.random() * 255);
             };
@@ -106,9 +100,10 @@ const Color = () => {
     };
 
     return (
-        <ColorBox bgColor={color}>
+        <>
+            <ColorBox bgColor={color}></ColorBox>
             <Button onClick={randomPicker}>Click</Button>
-        </ColorBox>
+        </>
     );
 };
 
