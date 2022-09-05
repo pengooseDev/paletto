@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import { colorAtom, TColor } from "../atoms";
+import { paletteAtom, TColor } from "../atoms";
+import { generateColor } from "../handler/colorHandler"
 
-type Color = [number,number,number]
-
-const ColorBox = styled.div<{ bgColor: Color }>`
+const ColorBox = styled.div<{ bgColor: TColor }>`
     background: ${(props) => {
         return `rgb(${props.bgColor[0]}, ${props.bgColor[1]}, ${props.bgColor[2]})`;
     }};
@@ -42,19 +41,12 @@ const Button = styled.div`
 `;
 
 const GenerateColorBox = () => {
-    const [color, setColor] = useRecoilState(colorAtom);
+    const [color, setColor] = useRecoilState(paletteAtom);
     const randomPicker = () => {
         setColor((prev) => {
             const prevColor = [...prev];
-            const randomColor = () => {
-                return Math.floor(Math.random() * 255);
-            };
-            console.log([randomColor(), randomColor(), randomColor()]);
-            const newColor: TColor = [
-                randomColor(),
-                randomColor(),
-                randomColor(),
-            ];
+            
+            const newColor: TColor = generateColor();
             return newColor;
         });
     };
