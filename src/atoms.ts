@@ -2,7 +2,9 @@ import { atom } from "recoil";
 
 export type TColor = [number, number, number];
 
-export const colorAtom = atom<TColor>({
-    key: "colorAtom",
-    default: [0, 0, 0],
+
+
+export const paletteAtom = atom<TColor>({
+    key: "paletteAtom",
+    default: [],
 });
