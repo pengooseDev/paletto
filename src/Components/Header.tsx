@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const Header = () => {
-    return <Wrapper>Header</Wrapper>;
+    return <Wrapper>Paletto</Wrapper>;
 };
 
 export default Header;

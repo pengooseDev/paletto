@@ -4,10 +4,9 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
     height: 100vh;
-    background: teal;
     display: flex;
     flex-direction: column;
-`
+`;
 
 function App() {
     return (

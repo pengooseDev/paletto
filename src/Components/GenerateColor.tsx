@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import { paletteAtom, TColor } from "../atoms";
-import { generateColor } from "../handler/colorHandler"
+import { paletteAtom, generateColorAtom, TColor } from "../atoms";
+import { generateColor } from "../handler/colorHandler";
+import { useEffect } from "react";
 
 const ColorBox = styled.div<{ bgColor: TColor }>`
     background: ${(props) => {
@@ -26,12 +27,6 @@ const Button = styled.div`
     background: whitesmoke;
     color: black;
     transition: 0.2s ease-in-out;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none;
     :hover {
         cursor: pointer;
         background: white;
@@ -41,20 +36,43 @@ const Button = styled.div`
 `;
 
 const GenerateColorBox = () => {
-    const [color, setColor] = useRecoilState(paletteAtom);
+    const [palette, setpalette] = useRecoilState(paletteAtom);
+    const [color, setColor] = useRecoilState(generateColorAtom);
+
     const randomPicker = () => {
         setColor((prev) => {
-            const prevColor = [...prev];
-            
             const newColor: TColor = generateColor();
             return newColor;
         });
     };
 
+    const brightness = () => {
+        setColor((prev) => {
+            const prevColor = [...prev];
+            const r = prevColor[0];
+            const g = prevColor[1];
+            const b = prevColor[2];
+
+            const returnColor = [
+                r * 1.2 >= 255 ? (r * 1.2) % 255 : r * 1.2,
+                g * 1.5 >= 255 ? (g * 1.5) % 255 : g * 1.5,
+                b * 1 >= 255 ? (b * 1) % 255 : b * 1,
+            ] as TColor;
+            return returnColor;
+        });
+    };
+
+    const colorfulness = () => {};
+
+    useEffect(() => {
+        randomPicker();
+    }, []);
+
     return (
         <>
             <ColorBox bgColor={color}></ColorBox>
             <Button onClick={randomPicker}>Click</Button>
+            <Button onClick={brightness}>Brightness</Button>
         </>
     );
 };
