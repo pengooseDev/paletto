@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { paletteAtom, generateColorAtom, TColor, THSV } from "../atoms";
 import { generateColor } from "../handler/colorHandler";
 import { useEffect } from "react";
+import { HSV } from "../handler/HSV";
 
 const ColorBox = styled.div<{ bgColor: TColor }>`
     background: ${(props) => {
@@ -35,6 +36,12 @@ const Button = styled.div`
     }
 `;
 
+const ColorData = styled.div`
+    width: 100px;
+    height: 100px;
+    border-radius: 3px;
+`;
+
 const GenerateColorBox = () => {
     const [palette, setpalette] = useRecoilState(paletteAtom);
     const [color, setColor] = useRecoilState(generateColorAtom);
@@ -45,7 +52,47 @@ const GenerateColorBox = () => {
             return newColor;
         });
     };
+    // H(Hue; 색조), S(Saturation; 채도), V(Value; 명도)
+    const hsvData = HSV(color);
 
+    const brightness = () => {};
+    const colorfulness = () => {};
+
+    useEffect(() => {
+        randomPicker();
+    }, []);
+
+    const changeHandler = () => {
+        console.log(1);
+    };
+    return (
+        <>
+            <ColorBox bgColor={color}></ColorBox>
+            <Button onClick={randomPicker}>Click</Button>
+            <ColorData>
+                {Object.entries(hsvData).map((i, v) => (
+                    <div>
+                        <div>{i[0]}</div>
+                        <div>{i[1]}</div>
+                        <div>{v}</div>
+                        <input
+                            type="range"
+                            max={
+                                v === 0 ? 360 : v === 1 ? 100 : v === 2 ? 1 : 1
+                            }
+                            value={i[1]}
+                        ></input>
+                    </div>
+                ))}
+            </ColorData>
+        </>
+    );
+};
+// 0 : Red, 120 : Green, 240 : Blue
+
+export default GenerateColorBox;
+
+/*
     const randomize = () => {
         setColor((prev) => {
             const prevColor = [...prev];
@@ -61,61 +108,4 @@ const GenerateColorBox = () => {
             return returnColor;
         });
     };
-
-    // RGB -> HSV convert fomula : https://www.had2know.org/technology/hsv-rgb-conversion-formula-calculator.html
-    // H(Hue; 색조), S(Saturation; 채도), V(Value; 명도)
-    const HSV = (color: TColor): THSV => {
-        if (!color[0] || !color[1] || !color[2]) return [0, 0, 0]; //undefined exception
-        const r = color[0] / 255;
-        const g = color[1] / 255;
-        const b = color[2] / 255;
-
-        // V(value) : 밝기.
-        const max = Math.max(r, g, b);
-        const min = Math.min(r, g, b);
-
-        let h,
-            s,
-            l = (max + min) / 2;
-
-        if (max == min) {
-            h = s = 0; // achromatic
-        } else {
-            var d = max - min;
-            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-            switch (max) {
-                case r:
-                    h = (g - b) / d + (g < b ? 6 : 0);
-                    break;
-                case g:
-                    h = (b - r) / d + 2;
-                    break;
-                case b:
-                    h = (r - g) / d + 4;
-                    break;
-            }
-
-            h = h !== 0 && h !== undefined ? h / 6 : 0;
-        }
-
-        return [h, s, l];
-    };
-
-    const brightness = () => {};
-    const colorfulness = () => {};
-
-    useEffect(() => {
-        randomPicker();
-    }, []);
-
-    return (
-        <>
-            <ColorBox bgColor={color}></ColorBox>
-            <Button onClick={randomPicker}>Click</Button>
-            <Button onClick={brightness}>Brightness</Button>
-        </>
-    );
-};
-
-export default GenerateColorBox;
+ */
