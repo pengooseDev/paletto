@@ -5,6 +5,10 @@ import { generateColor } from "../handler/colorHandler";
 import { useEffect } from "react";
 import { HSV } from "../handler/HSV";
 
+const Wrapper = styled.div`
+    display: flex;
+`;
+
 const ColorBox = styled.div<{ bgColor: TColor }>`
     background: ${(props) => {
         return `rgb(${props.bgColor[0]}, ${props.bgColor[1]}, ${props.bgColor[2]})`;
@@ -19,13 +23,11 @@ const ColorBox = styled.div<{ bgColor: TColor }>`
 `;
 
 const Button = styled.div`
-    left: 35%;
-    width: 50px;
-    height: 20px;
     text-align: center;
     border-radius: 5px;
-    padding: 5px 10px;
-    background: whitesmoke;
+    padding: 10px 0px;
+    background: rgba(0, 0, 0, 0.1);
+    width: 100%;
     color: black;
     transition: 0.2s ease-in-out;
     :hover {
@@ -36,10 +38,20 @@ const Button = styled.div`
     }
 `;
 
+const ColorDataWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: whitesmoke;
+`;
+
 const ColorData = styled.div`
-    width: 100px;
-    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border-radius: 3px;
+    padding: 20px;
 `;
 
 const GenerateColorBox = () => {
@@ -66,26 +78,39 @@ const GenerateColorBox = () => {
         console.log(1);
     };
     return (
-        <>
-            <ColorBox bgColor={color}></ColorBox>
-            <Button onClick={randomPicker}>Click</Button>
-            <ColorData>
-                {Object.entries(hsvData).map((i, v) => (
-                    <div>
-                        <div>{i[0]}</div>
-                        <div>{i[1]}</div>
-                        <div>{v}</div>
-                        <input
-                            type="range"
-                            max={
-                                v === 0 ? 360 : v === 1 ? 100 : v === 2 ? 1 : 1
-                            }
-                            value={i[1]}
-                        ></input>
-                    </div>
+        <Wrapper>
+            <div>
+                <ColorBox bgColor={color}></ColorBox>
+            </div>
+            <ColorDataWrapper>
+                <ColorData>
+                    {Object.entries(hsvData).map((i, v) => (
+                        <div>
+                            <div>{i[0]}</div>
+                            <div>{i[1]}</div>
+                            <div>{v}</div>
+                            <input
+                                type="range"
+                                max={
+                                    v === 0
+                                        ? 360
+                                        : v === 1
+                                        ? 100
+                                        : v === 2
+                                        ? 1
+                                        : 1
+                                }
+                                value={i[1]}
+                            ></input>
+                        </div>
+                    ))}
+                </ColorData>
+                {color.map((i) => (
+                    <div>{i}</div>
                 ))}
-            </ColorData>
-        </>
+                <Button onClick={randomPicker}>Click</Button>
+            </ColorDataWrapper>
+        </Wrapper>
     );
 };
 // 0 : Red, 120 : Green, 240 : Blue
