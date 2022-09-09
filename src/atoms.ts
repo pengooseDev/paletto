@@ -12,3 +12,6 @@ export const generateColorAtom = atom<TColor>({
     key: "generateColorAtom",
     default: [],
 });
+
+/* HSV */
+export type THSV = [number, number, number];

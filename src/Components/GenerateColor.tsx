@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import { paletteAtom, generateColorAtom, TColor } from "../atoms";
+import { paletteAtom, generateColorAtom, TColor, THSV } from "../atoms";
 import { generateColor } from "../handler/colorHandler";
 import { useEffect } from "react";
 
@@ -46,24 +46,7 @@ const GenerateColorBox = () => {
         });
     };
 
-    const brightness = () => {
-        setColor((prev) => {
-            const prevColor = [...prev];
-            const r = prevColor[0];
-            const g = prevColor[1];
-            const b = prevColor[2];
-
-            const returnColor = [
-                r * 1.2 >= 255 ? (r * 1.2) % 255 : r * 1.2,
-                g * 1.5 >= 255 ? (g * 1.5) % 255 : g * 1.5,
-                b * 1 >= 255 ? (b * 1) % 255 : b * 1,
-            ] as TColor;
-            return returnColor;
-        });
-    };
-    //색채학 [색채학 + tinyColor](https://dane-itview.tistory.com/entry/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%A1%9C-%EC%83%89%EC%83%81%EA%B0%92-%EB%AA%85%EB%8F%84-%EC%B1%84%EB%8F%84-%EB%B3%80%EA%B2%BD-%ED%95%98%EA%B8%B0-how-to-change-colors-bright-with-javascript?category=886653)
-
-    const colorfulness = () => {
+    const randomize = () => {
         setColor((prev) => {
             const prevColor = [...prev];
             const r = prevColor[0];
@@ -79,7 +62,48 @@ const GenerateColorBox = () => {
         });
     };
 
-    //https://gammabeta.tistory.com/390 (HSV로 구조 바꿔서 만들어 보기.)
+    // RGB -> HSV convert fomula : https://www.had2know.org/technology/hsv-rgb-conversion-formula-calculator.html
+    // H(Hue; 색조), S(Saturation; 채도), V(Value; 명도)
+    const HSV = (color: TColor): THSV => {
+        if (!color[0] || !color[1] || !color[2]) return [0, 0, 0]; //undefined exception
+        const r = color[0] / 255;
+        const g = color[1] / 255;
+        const b = color[2] / 255;
+
+        // V(value) : 밝기.
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+
+        let h,
+            s,
+            l = (max + min) / 2;
+
+        if (max == min) {
+            h = s = 0; // achromatic
+        } else {
+            var d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+            }
+
+            h = h !== 0 && h !== undefined ? h / 6 : 0;
+        }
+
+        return [h, s, l];
+    };
+
+    const brightness = () => {};
+    const colorfulness = () => {};
 
     useEffect(() => {
         randomPicker();
