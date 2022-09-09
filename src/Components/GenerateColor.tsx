@@ -63,7 +63,23 @@ const GenerateColorBox = () => {
     };
     //색채학 [색채학 + tinyColor](https://dane-itview.tistory.com/entry/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%A1%9C-%EC%83%89%EC%83%81%EA%B0%92-%EB%AA%85%EB%8F%84-%EC%B1%84%EB%8F%84-%EB%B3%80%EA%B2%BD-%ED%95%98%EA%B8%B0-how-to-change-colors-bright-with-javascript?category=886653)
 
-    const colorfulness = () => {};
+    const colorfulness = () => {
+        setColor((prev) => {
+            const prevColor = [...prev];
+            const r = prevColor[0];
+            const g = prevColor[1];
+            const b = prevColor[2];
+
+            const returnColor = [
+                r * 1.2 >= 255 ? (r * 1.2) % 255 : r * 1.2,
+                g * 1.5 >= 255 ? (g * 1.5) % 255 : g * 1.5,
+                b * 1 >= 255 ? (b * 1) % 255 : b * 1,
+            ] as TColor;
+            return returnColor;
+        });
+    };
+
+    //https://gammabeta.tistory.com/390 (HSV로 구조 바꿔서 만들어 보기.)
 
     useEffect(() => {
         randomPicker();
