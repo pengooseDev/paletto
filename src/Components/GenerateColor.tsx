@@ -77,6 +77,7 @@ const GenerateColorBox = () => {
     const changeHandler = () => {
         console.log(1);
     };
+    
     return (
         <Wrapper>
             <div>
