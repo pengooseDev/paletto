@@ -19,3 +19,18 @@ export type THSV = {
     s: number;
     v: number;
 };
+
+export const HSVAtom = atom<THSV> ({
+    key:"HSVAtom",
+    default:{h:0,s:0,v:0}
+})
+
+
+
+///////
+type TTe = number;
+
+export const TeAtom = atom<TTe>({
+    key:"TeAtom",
+    default:0
+})
