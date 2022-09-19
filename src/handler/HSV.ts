@@ -58,6 +58,6 @@ export const HSV = (color: TColor): THSV => {
     return {
         h: Math.round(h * 360),
         s: percentRoundFn(s * 100),
-        v: percentRoundFn(v * 100),
+        v: percentRoundFn(v * 100) * 250,
     };
 };

@@ -5,7 +5,22 @@ library : https://github.com/bgrins/TinyColor
 ---
 
 [ 기능 ]
-화면이 마운트 될 때, useEffect를 이용한 랜덤한 Color Generate.
+
+1. Click하면 랜덤 색상 Generate. 이걸 <input type="color" />로 하면 좋을듯?
+
+-   마음에 안들면 reGenerate
+
+> Select 누른 경우 5가지 Variation 제공.
+> h() : H값에 난수를 더하고, 360 나머지로 나눔.
+> colorness() : 난수를 이용한 채도"만" 변경.
+> brightness() : 난수를 이용한 명도"만" 변경.
+> h() + colorness() : 색상 바꾸고 채도 변경.
+> h() + brightness() : 색상 바꾸고 명도 변경.
+
+반복!
+
+onChange(onmouseup)일 때, 해당 값 다시 recoilState에 저장.
+
 색상 별로면 Click 다시.
 
 More 버튼을 Click하면 해당 Color과 어울리는 색상 Generate
@@ -66,3 +81,10 @@ const [palette, setPalette] = useRecoilState;
 
 }
 ```
+
+---
+
+Framer Motion을 써보는 것도 재밌을 듯..?
+
+내가 고른 색상들 linear-gradient.
+Y축 고정하고 Drag로 페이지 넘겼을 때, 색상 변경되는 느낌으로 (H값)

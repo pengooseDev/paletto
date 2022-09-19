@@ -1,10 +1,16 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import { paletteAtom, generateColorAtom, TColor, THSV, HSVAtom } from "../atoms";
+import {
+    paletteAtom,
+    generateColorAtom,
+    TColor,
+    THSV,
+    HSVAtom,
+} from "../atoms";
 import { generateColor } from "../handler/colorHandler";
 import { useEffect } from "react";
 import { HSV } from "../handler/HSV";
-import Te from "./Te"
+import Te from "./Te";
 
 const Wrapper = styled.div`
     display: flex;
@@ -60,34 +66,33 @@ const GenerateColorBox = () => {
     const [color, setColor] = useRecoilState(generateColorAtom);
     const [HSVColor, setHSVColor] = useRecoilState(HSVAtom);
 
-    const randomPicker = () => {
+    const generateNewColor = () => {
         setColor((prev) => {
             const newColor: TColor = generateColor();
             return newColor;
         });
     };
-    // H(Hue; 색조), S(Saturation; 채도), V(Value; 명도)
+    // H(Hue; 색상), S(Saturation; 채도), V(Value; 명도)
 
     const brightness = () => {};
     const colorfulness = () => {};
 
     const colorChangeHandler = () => {
-        console.log(1)
-    }
+        console.log(1);
+    };
 
     useEffect(() => {
-        randomPicker();
+        generateNewColor();
     }, []);
 
-    useEffect(()=>{
-        setHSVColor(prev=>HSV(color));
-    },[color])
-    
+    useEffect(() => {
+        setHSVColor((prev) => HSV(color));
+        console.log(HSVColor);
+    }, [color]);
+
     return (
         <Wrapper>
-            <div>
-                <ColorBox bgColor={color}></ColorBox>
-            </div>
+            <ColorBox bgColor={color}></ColorBox>
             <ColorDataWrapper>
                 <ColorData>
                     {Object.entries(HSVColor).map((i, v) => (
@@ -103,7 +108,7 @@ const GenerateColorBox = () => {
                                         : v === 1
                                         ? 100
                                         : v === 2
-                                        ? 1
+                                        ? 100
                                         : 1
                                 }
                                 value={i[1]}
@@ -115,7 +120,7 @@ const GenerateColorBox = () => {
                 {color.map((i) => (
                     <div>{i}</div>
                 ))}
-                <Button onClick={randomPicker}>Click</Button>
+                <Button onClick={generateNewColor}>Click</Button>
             </ColorDataWrapper>
             <Te />
         </Wrapper>
