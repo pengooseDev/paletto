@@ -4,9 +4,13 @@ import {useRecoilState} from "recoil";
 const Te = () => {
     const [te,setTe] = useRecoilState(TeAtom)
 
+    const changeHandler = () => {
+        
+    }
+
     return (
         <div>
-            <input type="range"></input>
+            <input type="range" onChange={changeHandler}></input>
             <div>{te}</div>
         </div>       
     )
