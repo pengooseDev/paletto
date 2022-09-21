@@ -1,5 +1,4 @@
 import Header from "./Components/Header";
-import GenerateColorBox from "./Components/GenerateColor";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -13,7 +12,6 @@ function App() {
         <>
             <Wrapper>
                 <Header />
-                <GenerateColorBox />
             </Wrapper>
         </>
     );
