@@ -74,12 +74,7 @@ const GenerateColorBox = () => {
     };
     // H(Hue; 색상), S(Saturation; 채도), V(Value; 명도)
 
-    const brightness = () => {};
-    const colorfulness = () => {};
-
-    const colorChangeHandler = () => {
-        console.log(1);
-    };
+    const colorChangeHandler = () => {};
 
     useEffect(() => {
         generateNewColor();
