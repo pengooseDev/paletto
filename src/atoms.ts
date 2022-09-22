@@ -3,5 +3,5 @@ export type IColorPick = string;
 
 export const colorPickAtom = atom<IColorPick>({
     key: "colorPickAtom",
-    default: "black",
+    default: "#000000",
 });
