@@ -1,19 +1,19 @@
 import Header from "./Components/Header";
 import styled from "styled-components";
+import Content from "./Components/Content";
 
 const Wrapper = styled.div`
-    height: 100vh;
     display: flex;
     flex-direction: column;
+    height: 100vh;
 `;
 
 function App() {
     return (
-        <>
-            <Wrapper>
-                <Header />
-            </Wrapper>
-        </>
+        <Wrapper>
+            <Header />
+            <Content />
+        </Wrapper>
     );
 }
 

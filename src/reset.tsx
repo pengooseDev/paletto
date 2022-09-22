@@ -22,44 +22,57 @@ time, mark, audio, video {
   font: inherit;
   vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, main, menu, nav, section {
   display: block;
 }
+
 /* HTML5 hidden-attribute fix for newer browsers */
 *[hidden] {
     display: none;
 }
+
 body {
   line-height: 1;
 }
+
 menu, ol, ul {
   list-style: none;
 }
+
 blockquote, q {
   quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
   content: '';
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+/*
+
 body::-webkit-scrollbar {
     height: 15px;
 }
+
 body::-webkit-scrollbar-track {
     background: rgba(55,55,55,0.3);
 }
+
 body::-webkit-scrollbar-thumb {
     background: rgba(232,19,169,0.65);
     border-radius: 5px;
     box-shadow: 0px 0px 5px black;
 }
+
 img {
     -webkit-user-drag: none;
     -khtml-user-drag: none;
@@ -67,6 +80,8 @@ img {
     -o-user-drag: none;
     user-drag: none;
 }
+
+*/
 
 body {
     height: 100vh;
