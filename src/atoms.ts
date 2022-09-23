@@ -1,7 +1,15 @@
 import { atom } from "recoil";
-export type IColorPick = string;
+interface IHSV {
+    h: number;
+    s: number;
+    v: number;
+}
 
-export const colorPickAtom = atom<IColorPick>({
-    key: "colorPickAtom",
-    default: "#000000",
+export const HSVAtom = atom<IHSV>({
+    key: "HSVAtom",
+    default: {
+        h: 0,
+        s: 0,
+        v: 0,
+    },
 });
