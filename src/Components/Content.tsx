@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { colorPickAtom, IColorPick } from "../atoms";
 import { useRecoilState } from "recoil";
-import { useRef } from "react";
+import { useState } from "react";
 
 /* Wrapper */
 const Wrapper = styled.div`
@@ -13,6 +13,9 @@ const Wrapper = styled.div`
 /* Color */
 const ColorInput = styled.input.attrs({ type: "color" })`
     display: none;
+    position: fixed;
+    top: 500px;
+    left: 500px;
 `;
 
 //styledComponents의 props는 object로 전달하는게 default임. 따라서 object형식으로 넘겨줘야함.
@@ -26,6 +29,8 @@ const ColorVariationContainer = styled.div`
     background: rgba(0, 0, 0, 0.3);
     padding: 10px;
 `;
+
+//HSV { h: 360, s: 100, v: 100 }
 
 const ColorLabelContainer = () => {
     const [colorPick, setColorPick] = useRecoilState<IColorPick>(colorPickAtom);
@@ -52,7 +57,10 @@ const Content = () => {
 
     return (
         <Wrapper>
+            {/* Left Component */}
             <ColorLabelContainer />
+
+            {/* Right Component */}
             <ColorVariationContainer />
         </Wrapper>
     );
