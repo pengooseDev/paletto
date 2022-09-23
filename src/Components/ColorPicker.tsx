@@ -41,6 +41,17 @@ const ColorHandler = styled.div`
     background: rgba(0, 0, 0, 0.1);
 `;
 
+/* ColorName */
+const ColorName = styled.div`
+    padding: 5px;
+`;
+
+const HueDisplay = styled.div`
+    background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff, #ff0000);
+    height: 15px;
+    width: 100%;
+`;
+
 const ColorPicker = () => {
     const [color, setColor] = useRecoilState(HSVAtom);
 
@@ -64,12 +75,14 @@ const ColorPicker = () => {
             <ColorDisplay
                 pickedColor={tinyRGB ? tinyRGB : { r: 0, g: 0, b: 0, a: 0 }}
             ></ColorDisplay>
+            <ColorName>#{tinyColor(color).toHex().toUpperCase()}</ColorName>
             <ColorHandler>
                 {Object.entries(color).map(([k, v], i) => (
                     <div key={k}>
                         <div>
                             {k}:{v}
                         </div>
+                        <HueDisplay />
                         <input
                             onChange={(e) => {
                                 valueHandler(e, k);
