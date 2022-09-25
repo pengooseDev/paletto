@@ -58,7 +58,7 @@ const ColorVariation = () => {
     const darkColor1: ITinyRGB = tinycolor(color).darken(15).toRgb();
     const darkColor2: ITinyRGB = tinycolor(color).darken(20).toRgb();
     const deSat1: ITinyRGB = tinycolor(color).desaturate(50).toRgb();
-    const deSat2: ITinyRGB = tinycolor(color).desaturate(30).toRgb();
+    const deSat2: ITinyRGB = tinycolor(color).saturate(30).toRgb();
 
     /* Hue */
     const hueValue = color.h;

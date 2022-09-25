@@ -17,10 +17,8 @@ const Paletto = styled.div`
 `;
 
 const Color = styled.div<{ color: string }>`
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: 1fr 30px;
     background: ${(props) => props.color};
     font-weight: 600;
     color: white;
@@ -34,19 +32,24 @@ const Color = styled.div<{ color: string }>`
     :first-child {
         border-radius: 5px 0px 0px 5px;
     }
+
+    & div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 `;
 
-const DeleteContainer = styled.div``;
+const DeleteContainer = styled.div<{ color: string }>`
+    background: ${(props) => props.color};
+    display: flex;
+`;
 
 const Delete = styled.svg`
-    position: absolute;
     background: white;
-    width: 30px;
+    width: 100%;
     height: 30px;
-    bottom: 20px;
-    right: 15px;
     background: rgba(255, 255, 255, 0.25);
-    border-radius: 3px;
     transition: 0.15s ease-in-out;
     :hover {
         background: rgba(255, 255, 255, 0.85);
@@ -58,12 +61,15 @@ const MyPaletto = () => {
     const [color, setColor] = useRecoilState(HSVAtom);
 
     const palettoClickHandler = (e: React.MouseEvent<HTMLElement>) => {
-        const target = e.currentTarget.firstElementChild?.innerHTML;
-        const tinyColor = tinycolor(target).toRgb();
+        copyFunc(e);
+        const target = e.currentTarget.innerHTML;
         const tinyHSV = tinycolor(target).toHsv();
         setColor((prev) => {
             const newData = {
-                ...prev,
+                ["h"]:
+                    Math.floor(tinyHSV.h) % 2 === 1
+                        ? Math.floor(tinyHSV.h) + 1
+                        : Math.floor(tinyHSV.h),
                 ["s"]: Math.floor(
                     Math.floor(tinyHSV.s * 100) % 2 === 1
                         ? Math.floor(tinyHSV.s * 100) + 1
@@ -79,7 +85,7 @@ const MyPaletto = () => {
         });
     };
 
-    const colorClickHandler = (e: React.MouseEvent<HTMLElement>) => {
+    const deleteClickHandler = (e: React.MouseEvent<HTMLElement>) => {
         setPaletto((prev) => {
             const target =
                 e.currentTarget.parentElement?.firstElementChild?.innerHTML;
@@ -91,13 +97,22 @@ const MyPaletto = () => {
         });
     };
 
+    const copyFunc = (e: React.MouseEvent<HTMLElement>) => {
+        const t = document.createElement("textarea");
+        document.body.appendChild(t);
+        t.value = e.currentTarget.innerHTML;
+        t.select();
+        document.execCommand("copy");
+        document.body.removeChild(t);
+    };
+
     return (
         <PalettoContainer>
             <Paletto>
                 {paletto.map((v, i) => (
-                    <Color onClick={palettoClickHandler} color={v} key={i}>
-                        <div>{v}</div>
-                        <DeleteContainer onClick={colorClickHandler}>
+                    <Color color={v} key={i}>
+                        <div onClick={palettoClickHandler}>{v}</div>
+                        <DeleteContainer color={v} onClick={deleteClickHandler}>
                             <Delete
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 320 512"
