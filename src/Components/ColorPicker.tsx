@@ -47,15 +47,55 @@ const ColorName = styled.div`
 `;
 
 const HueDisplay = styled.div`
-    background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff, #ff0000);
+    background: linear-gradient(
+        90deg,
+        #ff0000,
+        #ffff00,
+        #00ff00,
+        #00ffff,
+        #0000ff,
+        #ff00ff,
+        #ff0000
+    );
     height: 15px;
-    width: 100%;
+    width: 90%;
+    margin-left: 6px;
+`;
+
+const SaturationDisplay = styled.div<{ pickedColor: IRGB }>`
+    background: linear-gradient(
+        90deg,
+        #ffffff,
+        rgb(
+            ${(props) => props.pickedColor.r},
+            ${(props) => props.pickedColor.g},
+            ${(props) => props.pickedColor.b}
+        )
+    );
+    height: 15px;
+    width: 90%;
+    margin-left: 6px;
+`;
+
+const ValueDisplay = styled.div<{ pickedColor: IRGB }>`
+    background: linear-gradient(
+        90deg,
+        #000000,
+        rgb(
+            ${(props) => props.pickedColor.r},
+            ${(props) => props.pickedColor.g},
+            ${(props) => props.pickedColor.b}
+        )
+    );
+    height: 15px;
+    width: 90%;
+    margin-left: 6px;
 `;
 
 const ColorPicker = () => {
     const [color, setColor] = useRecoilState(HSVAtom);
 
-    console.log(color);
+    console.log("color", color);
     const valueHandler = (e: React.FormEvent<HTMLInputElement>, k: string) => {
         const value = Number(e.currentTarget.value);
         setColor((prev) => {
@@ -68,7 +108,13 @@ const ColorPicker = () => {
 
     const tinyHSV = tinyColor(color);
     const tinyRGB: IRGB = tinyHSV.toRgb();
-    console.log(tinyRGB);
+    console.log("!!!", color.h);
+    const tinySaturation = tinyColor({
+        h: color.h,
+        s: 100,
+        v: color.v,
+    }).toRgb();
+    const tinyValue = tinyColor({ h: color.h, s: color.s, v: 100 }).toRgb();
 
     return (
         <Wrapper>
@@ -82,8 +128,15 @@ const ColorPicker = () => {
                         <div>
                             {k}:{v}
                         </div>
-                        <HueDisplay />
+                        {i == 0 ? (
+                            <HueDisplay />
+                        ) : i == 1 ? (
+                            <SaturationDisplay pickedColor={tinySaturation} />
+                        ) : (
+                            <ValueDisplay pickedColor={tinyValue} />
+                        )}
                         <input
+                            step="2"
                             onChange={(e) => {
                                 valueHandler(e, k);
                             }}
