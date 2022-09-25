@@ -10,9 +10,18 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
 
-    width: 300px;
-    height: 300px;
+    padding: 20px;
+    border-radius: 5px;
+
+    width: 250px;
+    height: 350px;
     background: rgba(0, 0, 0, 0.1);
+`;
+
+const EntriesWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
 `;
 
 interface IRGB {
@@ -29,13 +38,14 @@ const ColorDisplay = styled.div<{ pickedColor: IRGB }>`
         ${(props) => props.pickedColor.g},
         ${(props) => props.pickedColor.b}
     );
-
-    width: 200px;
+    width: 100%;
     height: 200px;
 `;
 
 /* HSVHandler */
 const ColorHandler = styled.div`
+    width: 100%;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     background: rgba(0, 0, 0, 0.1);
@@ -58,23 +68,26 @@ const HueDisplay = styled.div`
         #ff0000
     );
     height: 15px;
-    width: 90%;
-    margin-left: 6px;
 `;
 
-const SaturationDisplay = styled.div<{ pickedColor: IRGB }>`
+const SaturationDisplay = styled.div<{
+    tinySaturation: IRGB;
+    tinySaturationOrigin: IRGB;
+}>`
     background: linear-gradient(
         90deg,
-        #ffffff,
         rgb(
-            ${(props) => props.pickedColor.r},
-            ${(props) => props.pickedColor.g},
-            ${(props) => props.pickedColor.b}
+            ${(props) => props.tinySaturationOrigin.r},
+            ${(props) => props.tinySaturationOrigin.g},
+            ${(props) => props.tinySaturationOrigin.b}
+        ),
+        rgb(
+            ${(props) => props.tinySaturation.r},
+            ${(props) => props.tinySaturation.g},
+            ${(props) => props.tinySaturation.b}
         )
     );
     height: 15px;
-    width: 90%;
-    margin-left: 6px;
 `;
 
 const ValueDisplay = styled.div<{ pickedColor: IRGB }>`
@@ -88,14 +101,11 @@ const ValueDisplay = styled.div<{ pickedColor: IRGB }>`
         )
     );
     height: 15px;
-    width: 90%;
-    margin-left: 6px;
 `;
 
 const ColorPicker = () => {
     const [color, setColor] = useRecoilState(HSVAtom);
 
-    console.log("color", color);
     const valueHandler = (e: React.FormEvent<HTMLInputElement>, k: string) => {
         const value = Number(e.currentTarget.value);
         setColor((prev) => {
@@ -108,10 +118,14 @@ const ColorPicker = () => {
 
     const tinyHSV = tinyColor(color);
     const tinyRGB: IRGB = tinyHSV.toRgb();
-    console.log("!!!", color.h);
     const tinySaturation = tinyColor({
         h: color.h,
         s: 100,
+        v: color.v,
+    }).toRgb();
+    const tinySaturationOrigin = tinyColor({
+        h: color.h,
+        s: 0,
         v: color.v,
     }).toRgb();
     const tinyValue = tinyColor({ h: color.h, s: color.s, v: 100 }).toRgb();
@@ -124,14 +138,17 @@ const ColorPicker = () => {
             <ColorName>#{tinyColor(color).toHex().toUpperCase()}</ColorName>
             <ColorHandler>
                 {Object.entries(color).map(([k, v], i) => (
-                    <div key={k}>
+                    <EntriesWrapper key={k}>
                         <div>
                             {k}:{v}
                         </div>
-                        {i == 0 ? (
-                            <HueDisplay />
-                        ) : i == 1 ? (
-                            <SaturationDisplay pickedColor={tinySaturation} />
+                        {i === 0 ? (
+                            <HueDisplay id="colorDisplay" />
+                        ) : i === 1 ? (
+                            <SaturationDisplay
+                                tinySaturation={tinySaturation}
+                                tinySaturationOrigin={tinySaturationOrigin}
+                            />
                         ) : (
                             <ValueDisplay pickedColor={tinyValue} />
                         )}
@@ -142,10 +159,10 @@ const ColorPicker = () => {
                             }}
                             value={v}
                             type="range"
-                            max={i == 0 ? 360 : i == 1 ? 100 : 100}
+                            max={i === 0 ? 360 : i === 1 ? 100 : 100}
                             key={i}
                         />
-                    </div>
+                    </EntriesWrapper>
                 ))}
             </ColorHandler>
         </Wrapper>

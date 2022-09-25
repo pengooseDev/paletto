@@ -8,8 +8,8 @@ interface IHSV {
 export const HSVAtom = atom<IHSV>({
     key: "HSVAtom",
     default: {
-        h: 0,
-        s: 100,
-        v: 100,
+        h: 180,
+        s: 80,
+        v: 50,
     },
 });
