@@ -9,7 +9,7 @@ export const HSVAtom = atom<IHSV>({
     key: "HSVAtom",
     default: {
         h: 180,
-        s: 80,
+        s: 70,
         v: 50,
     },
 });
