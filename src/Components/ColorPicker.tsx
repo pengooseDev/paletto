@@ -6,15 +6,11 @@ import tinyColor from "tinycolor2";
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-
     align-items: center;
     justify-content: center;
-
     padding: 20px;
-    border-radius: 5px;
 
     width: 250px;
-    height: 350px;
     background: rgba(0, 0, 0, 0.1);
 `;
 
@@ -39,7 +35,7 @@ const ColorDisplay = styled.div<{ pickedColor: IRGB }>`
         ${(props) => props.pickedColor.b}
     );
     width: 100%;
-    height: 200px;
+    height: 150px;
 `;
 
 /* HSVHandler */
@@ -53,7 +49,8 @@ const ColorHandler = styled.div`
 
 /* ColorName */
 const ColorName = styled.div`
-    padding: 5px;
+    margin: 10px 0px;
+    font-weight: 600;
 `;
 
 const HueDisplay = styled.div`
@@ -68,6 +65,8 @@ const HueDisplay = styled.div`
         #ff0000
     );
     height: 15px;
+    width: 97%;
+    margin-left: 3px;
 `;
 
 const SaturationDisplay = styled.div<{
@@ -88,6 +87,8 @@ const SaturationDisplay = styled.div<{
         )
     );
     height: 15px;
+    width: 97%;
+    margin-left: 3px;
 `;
 
 const ValueDisplay = styled.div<{ pickedColor: IRGB }>`
@@ -101,6 +102,20 @@ const ValueDisplay = styled.div<{ pickedColor: IRGB }>`
         )
     );
     height: 15px;
+    width: 97%;
+    margin-left: 3px;
+`;
+
+const HSVValue = styled.div`
+    padding: 5px 8px;
+    background: whitesmoke;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-bottom: 10px;
+`;
+
+const ValueInput = styled.input`
+    margin-top: 3px;
 `;
 
 const ColorPicker = () => {
@@ -139,9 +154,9 @@ const ColorPicker = () => {
             <ColorHandler>
                 {Object.entries(color).map(([k, v], i) => (
                     <EntriesWrapper key={k}>
-                        <div>
+                        <HSVValue>
                             {k}:{v}
-                        </div>
+                        </HSVValue>
                         {i === 0 ? (
                             <HueDisplay id="colorDisplay" />
                         ) : i === 1 ? (
@@ -152,7 +167,7 @@ const ColorPicker = () => {
                         ) : (
                             <ValueDisplay pickedColor={tinyValue} />
                         )}
-                        <input
+                        <ValueInput
                             step="2"
                             onChange={(e) => {
                                 valueHandler(e, k);
@@ -170,11 +185,3 @@ const ColorPicker = () => {
 };
 
 export default ColorPicker;
-
-/*
-1. 테마 컬러 정할 수 있는 HSV Color picker 만들기
-2. 컨트롤러 만들기
-
-
-
-*/
